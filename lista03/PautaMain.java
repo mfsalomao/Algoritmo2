@@ -1,4 +1,4 @@
-package lista04;
+package lista03;
 
 import javax.swing.JOptionPane;
 
@@ -7,8 +7,6 @@ public class PautaMain {
 	public static void main(String[] args) {
 		// Declaração de variáveis.
 		boolean cadastrou = false;
-		boolean reprovadoFalta = false;
-		boolean reprovadoNota = false;
 		double media = 0;
 		char opcao;
 		// Instanciação da classe Pauta. Cria objeto aluno1 vazio (construtor vazio).
@@ -54,12 +52,10 @@ public class PautaMain {
 			case '3':
 				// Verifica faltas e mostra situação do aluno.
 				if (cadastrou) {
-					if (aluno1.getNumFalta() < 25) {
-						reprovadoFalta = false;
+					if (!verificarFaltas(aluno1)) {
 						JOptionPane.showMessageDialog(null, "O aluno "+aluno1.getNomeAluno()+ " tem "+aluno1.getNumFalta()+ " faltas."
 								+ " Situação: Regular.");
 					}else {
-						reprovadoFalta = true;
 						JOptionPane.showMessageDialog(null, "O aluno "+aluno1.getNomeAluno()+ " tem "+aluno1.getNumFalta()+ " faltas."
 								+ " Situação: Reprovado por faltas.");
 					}
@@ -77,27 +73,16 @@ public class PautaMain {
 				}	
 			break;
 			case '5':
-				// Verifica se o aluno reprovou por falta.
+				
 				if (cadastrou) {
-					if (aluno1.getNumFalta() < 25) {
-						reprovadoFalta = false;
-					}else {
-						reprovadoFalta = true;
-					}
-					// Verifica se o aluno reprovou por nota.
-					if (((aluno1.getNota1() + aluno1.getNota2())/2) < 7) {
-						reprovadoNota = true;
-					}else{
-						reprovadoNota = false;
-					}
 					// Exibe mensagens com a situação do aluno.
-					if (reprovadoFalta && reprovadoNota) {
+					if (verificarFaltas(aluno1) && verificarNotas(aluno1)) {
 						JOptionPane.showMessageDialog(null, "O aluno "+aluno1.getNomeAluno()+" está reprovado por falta e por nota.");
 					}else{
-						if (reprovadoFalta && !reprovadoNota) {
+						if (verificarFaltas(aluno1) && verificarNotas(aluno1)) {
 							JOptionPane.showMessageDialog(null, "O aluno "+aluno1.getNomeAluno()+" está reprovado por falta.");
 						}else{
-							if (!reprovadoFalta && reprovadoNota) {
+							if (!verificarFaltas(aluno1) && verificarNotas(aluno1)) {
 								JOptionPane.showMessageDialog(null, "O aluno "+aluno1.getNomeAluno()+" está reprovado por nota.");
 							}else{
 								JOptionPane.showMessageDialog(null, "O aluno "+aluno1.getNomeAluno()+" está aprovado.");
@@ -116,5 +101,21 @@ public class PautaMain {
 			break;
 			}
 		 }while(opcao != '6');
+	}
+	
+	static boolean verificarFaltas(Pauta a) {
+		if (a.getNumFalta() <= 25) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	static boolean verificarNotas(Pauta b) {
+		if (((b.getNota1() + b.getNota2())/2) < 7) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

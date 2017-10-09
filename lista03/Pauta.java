@@ -1,4 +1,4 @@
-package lista04;
+package lista03;
 
 public class Pauta {
 	
